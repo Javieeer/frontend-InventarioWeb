@@ -4,7 +4,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Toolbar, Drawer, List, ListItemText, Box, Divider, ListItemIcon, ListItemButton } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../context/authContext";
 import { styles } from "../styles/dashboard"; 
 
 const MenuLateral = ( { rol } ) => {

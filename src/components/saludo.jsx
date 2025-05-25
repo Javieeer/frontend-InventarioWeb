@@ -1,5 +1,5 @@
 import { AppBar, Toolbar, Typography } from "@mui/material";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../context/authContext";
 import { styles } from "../styles/saludo";
 
 const Saludo = () => {
