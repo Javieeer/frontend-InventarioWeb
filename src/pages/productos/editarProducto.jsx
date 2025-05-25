@@ -11,7 +11,7 @@ import {
   CssBaseline
 } from "@mui/material";
 import { supabase } from "../../../supabaseClient";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../context/authContext";
 import Saludo from "../../components/saludo";
 import MenuLateral from "../../components/menuLateral";
 import { styles } from "../../styles/dashboard";

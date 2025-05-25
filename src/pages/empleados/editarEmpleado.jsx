@@ -16,7 +16,7 @@ import {
   MenuItem
 } from "@mui/material";
 import { supabase } from "../../../supabaseClient";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../context/authContext";
 import { usarMensaje } from "../../context/mensaje";
 import Saludo from "../../components/saludo";
 import MenuLateral from "../../components/menuLateral";

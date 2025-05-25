@@ -10,7 +10,7 @@ import {
   Select,
   MenuItem
 } from "@mui/material";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../context/authContext";
 import { styles } from "../../styles/dashboard";
 import { supabase } from "../../../supabaseClient";
 import { useNavigate } from "react-router-dom";

@@ -9,7 +9,7 @@ import {
   Paper,
   Grid,
 } from "@mui/material";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../context/authContext";
 import { styles } from "../../styles/dashboard";
 import { useNavigate } from "react-router-dom";
 import { usarMensaje } from "../../context/mensaje";
