@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import {
-  Toolbar,
   CssBaseline,
   Box,
   TextField,
@@ -8,7 +7,13 @@ import {
   Typography,
   Paper,
   Grid,
+  IconButton,
+  useMediaQuery,
 } from "@mui/material";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import MenuIcon from "@mui/icons-material/Menu";
+import { useTheme } from "@mui/material/styles";
 import { useAuth } from "../../context/authContext";
 import { styles } from "../../styles/dashboard";
 import { useNavigate } from "react-router-dom";
@@ -31,6 +36,10 @@ const ConfigPerfil = () => {
     confirmarContraseña: "",
   });
   const [loading, setLoading] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  
 
   useEffect(() => {
     if (userData) {
@@ -125,18 +134,55 @@ const ConfigPerfil = () => {
     }
   };
 
-
-
-
   return (
     <Box sx={styles.dashboardContainer}>
       <CssBaseline />
-      <Saludo />
-      <MenuLateral rol={isAdmin} />
+
+      {/* Barra superior elegante */}
+      {isMobile && (
+        <AppBar
+          elevation={3}
+          sx={{
+            background: "linear-gradient(90deg, #1976d2 0%, #1565c0 100%)"
+          }}
+        >
+          <Toolbar sx={{ minHeight: 56, px: 1, display: "flex", justifyContent: "space-between" }}>
+            <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+              <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                edge="start"
+                onClick={() => setDrawerOpen(true)}
+                sx={{ mr: 1, margin: 0 }}
+              >
+                <MenuIcon />
+              </IconButton>
+              <Saludo simple />
+            </Box>
+          </Toolbar>
+        </AppBar>
+      )}
+      {!isMobile && <Saludo />}
+
+      {/* Menu lateral */}
+      <MenuLateral
+        rol={isAdmin}
+        mobileOpen={drawerOpen}
+        setMobileOpen={setDrawerOpen}
+      />
 
       <Box component="main" sx={styles.mainContent}>
-        <Paper elevation={4} sx={{ p: 4, borderRadius: 3, maxWidth: 600, mx: "auto" }}>
-          <Typography variant="h5" gutterBottom align="center" sx={{ marginBottom: 5 }}>
+        <Paper
+          elevation={4}
+          sx={{
+            p: isMobile ? 2 : 4,
+            borderRadius: 3,
+            maxWidth: 600,
+            mx: "auto",
+            mt: isMobile ? 8 : 4,
+          }}
+        >
+          <Typography variant="h5" gutterBottom align="center" sx={{ mb: isMobile ? 3 : 5 }}>
             Configuración de Perfil
           </Typography>
 
@@ -145,7 +191,11 @@ const ConfigPerfil = () => {
             style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
             autoComplete="off"
           >
-            <Grid container spacing={3} sx={{ width: "100%", justifyContent: "center" }}>
+            <Grid
+              container
+              spacing={isMobile ? 2 : 3}
+              sx={{ width: "100%", justifyContent: "center" }}
+            >
               <Grid xs={12}>
                 <TextField
                   label="Nombre"
@@ -212,16 +262,31 @@ const ConfigPerfil = () => {
               </Grid>
             </Grid>
 
-            <Box sx={{ mt: 4, display: "flex", justifyContent: "space-between", width: "100%" }}>
+            <Box
+              sx={{
+                mt: isMobile ? 2 : 4,
+                display: "flex",
+                flexDirection: isMobile ? "column" : "row",
+                gap: 2,
+                width: "100%",
+                alignItems: "stretch",
+              }}
+            >
               <Button
                 type="submit"
                 variant="contained"
                 color="primary"
                 disabled={loading}
+                fullWidth={isMobile}
               >
                 {loading ? "Actualizando..." : "Guardar cambios"}
               </Button>
-              <Button variant="outlined" color="secondary" onClick={() => navigate("/dashboard")}>
+              <Button
+                variant="outlined"
+                color="secondary"
+                onClick={() => navigate("/dashboard")}
+                fullWidth={isMobile}
+              >
                 Cancelar
               </Button>
             </Box>

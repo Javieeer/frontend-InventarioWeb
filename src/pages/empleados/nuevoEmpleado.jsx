@@ -1,15 +1,20 @@
 import { useState } from "react";
 import {
-  Toolbar,
   CssBaseline,
   Box,
   TextField,
   Button,
   FormControl,
   InputLabel,
+  useMediaQuery,
   Select,
   MenuItem
 } from "@mui/material";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import MenuIcon from '@mui/icons-material/Menu';
+import { useTheme } from "@mui/material/styles";
 import { useAuth } from "../../context/authContext";
 import { styles } from "../../styles/dashboard";
 import { supabase } from "../../../supabaseClient";
@@ -29,8 +34,11 @@ const NuevoEmpleado = () => {
     rol: "",
     email: "",
   });
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const { mostrarMensaje } = usarMensaje();
   const navigate = useNavigate();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   /* Definimos el rol para mostrar o no la db de empleados */
   const isAdmin = userData?.rol === "admin";
@@ -108,11 +116,38 @@ const NuevoEmpleado = () => {
     <Box sx={styles.dashboardContainer}>
       <CssBaseline />
 
-      {/* Saludo */}
-      <Saludo />
+      {/* Barra superior elegante */}
+      {isMobile && (
+        <AppBar
+          elevation={3}
+          sx={{
+            background: "linear-gradient(90deg, #1976d2 0%, #1565c0 100%)"
+          }}
+        >
+          <Toolbar sx={{ minHeight: 56, px: 1, display: "flex", justifyContent: "space-between" }}>
+            <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+              <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                edge="start"
+                onClick={() => setDrawerOpen(true)}
+                sx={{ mr: 1, margin: 0 }}
+              >
+                <MenuIcon />
+              </IconButton>
+              <Saludo simple />
+            </Box>
+          </Toolbar>
+        </AppBar>
+      )}
+      {!isMobile && <Saludo />}
 
       {/* Menu lateral */}
-      <MenuLateral rol = { isAdmin } />
+      <MenuLateral
+        rol={isAdmin}
+        mobileOpen={drawerOpen}
+        setMobileOpen={setDrawerOpen}
+      />
 
       {isAdmin && (
         /* Contenido de la pagina */

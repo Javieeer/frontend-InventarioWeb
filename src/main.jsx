@@ -7,7 +7,7 @@ import { BrowserRouter } from 'react-router-dom';  // Importa BrowserRouter
 
 ReactDOM.createRoot(document.getElementById('app')).render(
   <React.StrictMode>
-    <BrowserRouter>  {/* Envuelve tu app en BrowserRouter */}
+    <BrowserRouter basename='/frontend-InventarioWeb/'>  {/* Envuelve tu app en BrowserRouter */}
       <AuthProvider>
         <App />
       </AuthProvider>

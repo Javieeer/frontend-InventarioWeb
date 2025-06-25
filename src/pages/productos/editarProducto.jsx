@@ -8,10 +8,16 @@ import {
   Button,
   Typography,
   Paper,
+  useMediaQuery,
+  IconButton,
   CssBaseline
 } from "@mui/material";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import MenuIcon from "@mui/icons-material/Menu";
 import { supabase } from "../../../supabaseClient";
 import { useAuth } from "../../context/authContext";
+import { useTheme } from "@mui/material/styles";
 import Saludo from "../../components/saludo";
 import MenuLateral from "../../components/menuLateral";
 import { styles } from "../../styles/dashboard";
@@ -29,6 +35,9 @@ const EditarProducto = () => {
     precio_compra: "",
     precio_venta: "",
   });
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   /* Cargamos el producto desde la base de datos y lo guardamos en el estado */
   useEffect(() => {
@@ -81,11 +90,38 @@ const EditarProducto = () => {
     <Box sx={styles.dashboardContainer}>
       <CssBaseline />
       
-      {/* Saludo */}
-      <Saludo />
+      {/* Barra superior elegante */}
+      {isMobile && (
+        <AppBar
+          elevation={3}
+          sx={{
+            background: "linear-gradient(90deg, #1976d2 0%, #1565c0 100%)"
+          }}
+        >
+          <Toolbar sx={{ minHeight: 56, px: 1, display: "flex", justifyContent: "space-between" }}>
+            <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+              <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                edge="start"
+                onClick={() => setDrawerOpen(true)}
+                sx={{ mr: 1, margin: 0 }}
+              >
+                <MenuIcon />
+              </IconButton>
+              <Saludo simple />
+            </Box>
+          </Toolbar>
+        </AppBar>
+      )}
+      {!isMobile && <Saludo />}
 
       {/* Menu lateral */}
-      <MenuLateral rol={isAdmin} />
+      <MenuLateral
+        rol={isAdmin}
+        mobileOpen={drawerOpen}
+        setMobileOpen={setDrawerOpen}
+      />
 
       {/* Contenido de la pagina */}
       <Box
@@ -93,19 +129,31 @@ const EditarProducto = () => {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          minHeight: "80vh"
+          minHeight: isMobile ? "auto" : "80vh",
+          width: "100vw",
+          paddingTop: isMobile ? "92px" : 0, // deja espacio para el AppBar en móvil
+          px: isMobile ? 1 : 0, // padding horizontal en móvil
+          boxSizing: "border-box",
         }}
       >
       {isAdmin && (
-        <Container maxWidth="sm">
-          <Paper elevation={4} sx={{ padding: 4, borderRadius: 3 }}>
+        <Container maxWidth={isMobile ? false : "sm"} sx={{ p: 0 }}>
+          <Paper
+            elevation={4}
+            sx={{
+              p: isMobile ? 2 : 4,
+              borderRadius: 3,
+              width: "100%",
+              boxSizing: "border-box",
+            }}
+          >
 
             {/* Titulo */}
             <Typography variant="h5" align="center" gutterBottom>
               Editar Producto
             </Typography>
             <form onSubmit={handleSubmit}>
-              <Grid container spacing={3}>
+              <Grid container spacing={3} sx={{ justifyContent: "center", paddingTop: "30px" }}>
                 <Grid item xs={12}>
                   <TextField
                     label="Nombre"
@@ -168,15 +216,22 @@ const EditarProducto = () => {
               </Grid>
 
               <Box
-                sx={{ mt: 4, display: "flex", justifyContent: "space-between" }}
+                sx={{
+                  mt: 4,
+                  display: "flex",
+                  flexDirection: isMobile ? "column" : "row",
+                  gap: 2,
+                  justifyContent: "space-between",
+                }}
               >
-                <Button type="submit" variant="contained" color="primary" disabled={!isAdmin}>
+                <Button type="submit" variant="contained" color="primary" disabled={!isAdmin} fullWidth={isMobile}>
                   Actualizar
                 </Button>
                 <Button
                   variant="outlined"
                   color="secondary"
                   onClick={() => navigate("/productos")}
+                  fullWidth={isMobile}
                 >
                   Cancelar
                 </Button>
@@ -194,7 +249,10 @@ const EditarProducto = () => {
             alignItems: "center",
             gap: 2,
             maxWidth: 400,
-            marginTop: 4
+            marginTop: 4,
+            width: "100vw",
+            px: 2,
+            boxSizing: "border-box",
           }}
         >
           <Typography variant="h5" color="error">
@@ -207,6 +265,7 @@ const EditarProducto = () => {
             variant="outlined"
             color="secondary"
             onClick={() => navigate("/productos")}
+            fullWidth={isMobile}
           >
             Volver
           </Button>
