@@ -35,6 +35,10 @@ const MenuLateral = ({ rol, mobileOpen, setMobileOpen }) => {
           <ListItemIcon><InventoryIcon /></ListItemIcon>
           <ListItemText primary="Base de datos productos" />
         </ListItemButton>
+        <ListItemButton onClick={() => navigate("/pedidos")}>
+          <ListItemIcon><InventoryIcon /></ListItemIcon>
+          <ListItemText primary="Articulos a pedir" />
+        </ListItemButton>
         <ListItemButton onClick={() => navigate("/configPerfil")}>
           <ListItemIcon><SettingsIcon /></ListItemIcon>
           <ListItemText primary="Configuración de perfil" />

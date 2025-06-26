@@ -12,6 +12,7 @@ import EditarEmpleado from './pages/empleados/editarEmpleado.jsx';
 import Productos from './pages/productos/productos.jsx';
 import NuevoProducto from './pages/productos/nuevoProducto.jsx';
 import EditarProducto from './pages/productos/editarProducto.jsx';
+import Pedidos from './pages/pedidos/pedidos.jsx';
 import ConfigPerfil from './pages/configuracionPerfil/configPerfil.jsx';
 
 
@@ -47,6 +48,7 @@ function App() {
         <Route path="/productos" element={user ? <Productos /> : <Login />} />
         <Route path="/productos/nuevoProducto" element={user ? <NuevoProducto /> : <Login />} />
         <Route path="/productos/editarProducto/:id" element={user ? <EditarProducto /> : <Login />} />
+        <Route path="/pedidos" element={user ? <Pedidos /> : <Login />} />
         <Route path="/configPerfil" element={user ? <ConfigPerfil /> : <Login />} />
       </Routes>
     </Mensaje>
